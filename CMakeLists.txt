@@ -3,17 +3,7 @@ project(IslandGrowth VERSION 0.0.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 11)
 
 # --- Data ---
-file(
-  COPY ${CMAKE_CURRENT_SOURCE_DIR}/data
-  DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-)
-# --- Assets ---
-file(GLOB ASSETS ${CMAKE_CURRENT_SOURCE_DIR}/assets/*)
-foreach(ASSET ${ASSETS})
-  if(NOT ${ASSET} MATCHES ".*\\.aseprite$")
-    file(COPY ${ASSET} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/assets)
-  endif()
-endforeach()
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/data/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/data)
 
 # --- Libraries ---
 include(FetchContent)

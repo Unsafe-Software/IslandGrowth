@@ -6,4 +6,7 @@ window:
   height: 720
   title: "Island Growth"
   fps: 60
-  zoom: 1
+  zoom: 3
+
+gameplay:
+  speed: 5

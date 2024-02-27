@@ -5,25 +5,32 @@
 #include <yaml-cpp/yaml.h>
 #include <glog/logging.h>
 
-class Game {
-private:
-    YAML::Node config;
-    Camera2D camera;
-    Texture2D tilemap;
-    bool debug;
-    int targetFPS;
-    Vector2 camera_target;
+#include "../world/world.hh"
+#include "tilemap.hh"
 
-    void updateCamera();
+namespace Engine {
+    class Game {
+    private:
+        YAML::Node config;
+        Camera2D camera;
+        Engine::Graphics::Tilemap* tilemap;
+        bool debug;
+        int targetFPS;
+        Vector2 camera_target;
+        Engine::World* current_world;
+        float speed;
 
-    void drawGame();
-    void drawUI();
-    void drawDebug();
+        void updateCamera();
 
-public:
-    Game(YAML::Node config);
-    ~Game();
+        void drawGame();
+        void drawUI();
+        void drawDebug();
 
-    void Update();
-    bool ShouldClose();
-};
+    public:
+        Game(YAML::Node config);
+        ~Game();
+
+        void Update();
+        bool ShouldClose();
+    };
+}
