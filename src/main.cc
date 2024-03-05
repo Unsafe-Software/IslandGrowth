@@ -2,14 +2,12 @@
 #include "game/game.hh"
 
 #include "entity/entity.hh"
+#include "entity/mob.hh"
 
 int main() {
-    Engine::Entity* entity = new Engine::Entity();
-    delete entity;
-
-    // Engine::Game* game = new Engine::Game(init());
-    // while (!game->ShouldClose())
-    //     game->Update();
-    // delete game;
+    Engine::Game* game = new Engine::Game(init());
+    while (!game->ShouldClose())
+        game->Update();
+    delete game;
     return 0;
 }

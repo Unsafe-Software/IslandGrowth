@@ -29,6 +29,8 @@ namespace Engine {
 
         this->current_world = new World("data/worlds/debug.json");
         this->speed = this->config["gameplay"]["speed"] ? this->config["gameplay"]["speed"].as<float>() : 1.0f;
+
+        this->mobs.push_back(Mob(this->current_world));
     }
 
     Game::~Game() {
@@ -39,20 +41,32 @@ namespace Engine {
     void Game::Update() {
         if (IsKeyPressed(KEY_F1))
             this->debug = !this->debug;
+        // if (IsKeyDown(KEY_W))
+        //     this->camera_target.y -= this->speed * GetFrameTime();
+        // if (IsKeyDown(KEY_S))
+        //     this->camera_target.y += this->speed * GetFrameTime();
+        // if (IsKeyDown(KEY_A))
+        //     this->camera_target.x -= this->speed * GetFrameTime();
+        // if (IsKeyDown(KEY_D))
+        //     this->camera_target.x += this->speed * GetFrameTime();
         if (IsKeyDown(KEY_W))
-            this->camera_target.y -= this->speed * GetFrameTime();
+            this->mobs[0].bounds.y -= this->speed * GetFrameTime();
         if (IsKeyDown(KEY_S))
-            this->camera_target.y += this->speed * GetFrameTime();
+            this->mobs[0].bounds.y += this->speed * GetFrameTime();
         if (IsKeyDown(KEY_A))
-            this->camera_target.x -= this->speed * GetFrameTime();
+            this->mobs[0].bounds.x -= this->speed * GetFrameTime();
         if (IsKeyDown(KEY_D))
-            this->camera_target.x += this->speed * GetFrameTime();
+            this->mobs[0].bounds.x += this->speed * GetFrameTime();
 
         BeginDrawing();
         this->updateCamera();
         BeginMode2D(this->camera);
         ClearBackground(WHITE);
         this->drawGame();
+        for (auto &mob : this->mobs) {
+            mob.Update();
+            mob.Draw();
+        }
         EndMode2D();
         this->drawUI();
         EndDrawing();

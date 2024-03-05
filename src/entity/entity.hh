@@ -3,19 +3,21 @@
 #include <raylib.h>
 #include <glog/logging.h>
 
+#include "../world/world.hh"
+
 namespace Engine {
     class Entity {
-    protected:
+    public:
         Rectangle bounds;
         Vector2 velocity;
-        bool gravity;
+        World* world;
 
-        void updatePosition();
-
-    public:
-        Entity();
+        Entity(World* world);
         virtual ~Entity();
 
         virtual void Update();
+        virtual void Draw();
+        void updatePosition();
+        void resolveCollisions();
     };
 }
