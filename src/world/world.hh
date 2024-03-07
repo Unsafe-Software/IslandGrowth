@@ -10,6 +10,12 @@
 using json = nlohmann::json;
 
 namespace Engine {
+    enum Solids : int {
+        Invalid = -1,
+        Stone = 1,
+        End,
+    };
+
     class World {
     private:
         std::vector<int> tiles;
