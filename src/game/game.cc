@@ -1,7 +1,7 @@
 #include "game.hh"
 
 namespace Engine {
-    Game::Game(YAML::Node config) {
+    Game::Game(YAML::Node config) : player(nullptr) {
         this->config = config;
 
         InitWindow(
@@ -30,7 +30,7 @@ namespace Engine {
         this->current_world = new World("data/worlds/debug.json");
         this->speed = this->config["gameplay"]["speed"] ? this->config["gameplay"]["speed"].as<float>() : 1.0f;
 
-        this->mobs.push_back(Mob(this->current_world));
+        this->player = Player(this->current_world);
     }
 
     Game::~Game() {
@@ -41,32 +41,25 @@ namespace Engine {
     void Game::Update() {
         if (IsKeyPressed(KEY_F1))
             this->debug = !this->debug;
-        // if (IsKeyDown(KEY_W))
-        //     this->camera_target.y -= this->speed * GetFrameTime();
-        // if (IsKeyDown(KEY_S))
-        //     this->camera_target.y += this->speed * GetFrameTime();
-        // if (IsKeyDown(KEY_A))
-        //     this->camera_target.x -= this->speed * GetFrameTime();
-        // if (IsKeyDown(KEY_D))
-        //     this->camera_target.x += this->speed * GetFrameTime();
+        if (IsKeyPressed(KEY_F2))
+            this->player.noClip = !this->player.noClip;
         if (IsKeyDown(KEY_W))
-            this->mobs[0].bounds.y -= this->speed * GetFrameTime();
+            this->player.velocity.y -= this->speed * GetFrameTime();
         if (IsKeyDown(KEY_S))
-            this->mobs[0].bounds.y += this->speed * GetFrameTime();
+            this->player.velocity.y += this->speed * GetFrameTime();
         if (IsKeyDown(KEY_A))
-            this->mobs[0].bounds.x -= this->speed * GetFrameTime();
+            this->player.velocity.x -= this->speed * GetFrameTime();
         if (IsKeyDown(KEY_D))
-            this->mobs[0].bounds.x += this->speed * GetFrameTime();
+            this->player.velocity.x += this->speed * GetFrameTime();
+        this->camera_target = {this->player.bounds.x, this->player.bounds.y};
 
         BeginDrawing();
         this->updateCamera();
         BeginMode2D(this->camera);
         ClearBackground(WHITE);
         this->drawGame();
-        for (auto &mob : this->mobs) {
-            mob.Update();
-            mob.Draw();
-        }
+        player.Update(this->debug);
+        player.Draw();
         EndMode2D();
         this->drawUI();
         EndDrawing();
@@ -87,14 +80,6 @@ namespace Engine {
                 );
             }
         }
-
-        DrawRectangleLinesEx(
-            (Rectangle){
-                this->camera_target.x * 16.0f - 8.0f,
-                this->camera_target.y * 16.0f - 8.0f,
-                16.0f, 16.0f
-            }, 1, RED
-        );
     }
 
     void Game::updateCamera() {
@@ -134,16 +119,21 @@ namespace Engine {
             3, 22, 20, GRAY
         );
         DrawText((
-                "Camera target: " + std::to_string(this->camera_target.x) +
-                "x " + std::to_string(this->camera_target.y) + "y"
+                "Camera pos: " + std::to_string(this->camera.target.x) +
+                "px x " + std::to_string(this->camera.target.x) + "px y"
             ).c_str(),
             3, 42, 20, GRAY
         );
         DrawText((
-                "Camera pos: " + std::to_string(this->camera.target.x) +
-                "x " + std::to_string(this->camera.target.x) + "y"
+                "Player pos: " + std::to_string(this->player.bounds.x) +
+                "x " + std::to_string(this->player.bounds.y) + "y"
             ).c_str(),
             3, 62, 20, GRAY
+        );
+        DrawText((
+                "Player noclip (F2): " + std::string(this->player.noClip ? "true" : "false")
+            ).c_str(),
+            3, 82, 20, GRAY
         );
     }
 }

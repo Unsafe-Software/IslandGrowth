@@ -10,6 +10,7 @@
 #include "../world/world.hh"
 #include "../entity/entity.hh"
 #include "../entity/mob.hh"
+#include "../entity/player.hh"
 #include "tilemap.hh"
 
 namespace Engine {
@@ -23,7 +24,7 @@ namespace Engine {
         Vector2 camera_target;
         Engine::World* current_world;
         float speed;
-        std::vector<Mob> mobs;
+        Player player;
 
         void updateCamera();
 

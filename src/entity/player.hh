@@ -6,13 +6,13 @@
 #include "entity.hh"
 
 namespace Engine {
-    class Mob : public Entity {
+    class Player : public Entity {
     private:
         int health;
 
     public:
-        Mob(World* world);
-        ~Mob();
+        Player(World* world);
+        ~Player();
 
         void Update(bool debug = false) override;
         void Draw() override;
