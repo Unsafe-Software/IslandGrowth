@@ -1,0 +1,12 @@
+debug: true
+raylib_debug: false
+
+window:
+  width: 1280
+  height: 720
+  title: "Island Growth"
+  fps: 60
+  zoom: 2
+
+gameplay:
+  speed: 5
