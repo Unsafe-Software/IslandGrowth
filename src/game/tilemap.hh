@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "raylib.h"
+#include <raylib.h>
 #include <glog/logging.h>
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
