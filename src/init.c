@@ -7,6 +7,18 @@
 #include <glog/logging.h>
 #include <raylib.h>
 
+void initWindow(YAML::Node config) {
+    InitWindow(
+        (config["window"]["window"] ? config["window"]["width"].as<int>() : 1280),
+        (config["window"]["window"] ? config["window"]["height"].as<int>() : 720),
+        (config["window"]["window"] ? config["window"]["title"].as<std::string>().c_str() : "Island Growth")
+    );
+    SetTargetFPS(
+        (config["window"]["fps"] ? config["window"]["fps"].as<int>() : 30)
+    );
+    LOG(INFO) << "Window initialized";
+}
+
 bool getDebug(YAML::Node config) {
     return (config["debug"] ? config["debug"].as<bool>() : false);
 }
@@ -29,18 +41,21 @@ void initLogging(YAML::Node config) {
 
 YAML::Node init(YAML::Node config) {
     initLogging(config);
+    initWindow(config);
     return config;
 }
 
 YAML::Node init(std::string configPath) {
     YAML::Node config = YAML::LoadFile(configPath);
     initLogging(config);
+    initWindow(config);
     return config;
 }
 
 YAML::Node init() {
     YAML::Node config = YAML::LoadFile("data/config.yaml");
     initLogging(config);
+    initWindow(config);
     return config;
 }
 

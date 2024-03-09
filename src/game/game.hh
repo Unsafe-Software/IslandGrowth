@@ -11,6 +11,7 @@
 #include "../entity/entity.hh"
 #include "../entity/mob.hh"
 #include "../entity/player.hh"
+#include "../scenes.hh"
 #include "tilemap.hh"
 
 namespace Engine {
@@ -36,7 +37,7 @@ namespace Engine {
         Game(YAML::Node config);
         ~Game();
 
-        void Update();
+        int Update();
         bool ShouldClose();
     };
 }

@@ -4,16 +4,6 @@ namespace Engine {
     Game::Game(YAML::Node config) : player(nullptr) {
         this->config = config;
 
-        InitWindow(
-            (this->config["window"]["window"] ? this->config["window"]["width"].as<int>() : 1280),
-            (this->config["window"]["window"] ? this->config["window"]["height"].as<int>() : 720),
-            (this->config["window"]["window"] ? this->config["window"]["title"].as<std::string>().c_str() : "Island Growth")
-        );
-        SetTargetFPS(
-            (this->config["window"]["fps"] ? this->config["window"]["fps"].as<int>() : 30)
-        );
-        LOG(INFO) << "Window initialized";
-
         this->camera = {};
         this->camera.target = {0.0f, 0.0f};
         this->camera.offset = {GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f};
@@ -34,11 +24,10 @@ namespace Engine {
     }
 
     Game::~Game() {
-        CloseWindow();
-        LOG(INFO) << "Window closed";
+        LOG(INFO) << "Game closed";
     }
 
-    void Game::Update() {
+    int Game::Update() {
         if (IsKeyPressed(KEY_F1))
             this->debug = !this->debug;
         if (IsKeyPressed(KEY_F2))
@@ -63,6 +52,8 @@ namespace Engine {
         EndMode2D();
         this->drawUI();
         EndDrawing();
+
+        return GAME;
     }
 
     bool Game::ShouldClose() {

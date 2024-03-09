@@ -42,7 +42,7 @@ if(NOT yaml-cpp_POPULATED)
 endif()
 
 # --- Executables ---
-file(GLOB Sources src/*.cc src/game/*.cc src/world/*.cc src/entity/*.cc)
+file(GLOB Sources src/*.cc src/game/*.cc src/world/*.cc src/entity/*.cc src/menu/*.cc)
 add_executable("${PROJECT_NAME}" ${Sources})
 target_link_libraries("${PROJECT_NAME}"
   yaml-cpp::yaml-cpp raylib
